@@ -58,8 +58,8 @@ A premium Flutter application providing secure document storage with biometric a
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/vishnu2006/CyberVault_App.git
-   cd CyberVault_App
+   git clone https://github.com/Sai-95964/CyberVault-SecurePersonalDataVaultApp.git 
+   cd CyberVault-SecurePersonalDataVaultApp
    ```
 
 2. **Install dependencies**
@@ -171,26 +171,7 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🏆 Hackathon Achievement
-
-**🎯 CyberFest Hackathon 2024 - 2nd Place Winner**
-
-- **Competition**: 110+ teams nationwide
-- **Prize**: ₹12,000 cash award
-- **Presentation**: Live demo in front of 500+ students and industry judges
-- **Innovation**: Recognized for exceptional security implementation and user experience
-
-## 📞 Contact
-
-- **Developer**: Vishnu Pandrangi
-- **GitHub**: [@vishnu2006](https://github.com/vishnu2006)
-- **Project**: [CyberVault_App](https://github.com/vishnu2006/CyberVault_App)
-
----
 
 **Built with ❤️ using Flutter and Firebase**
 
