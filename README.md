@@ -1,9 +1,9 @@
-# 🏆 CyberVault - Secure Document Storage App
+#  CyberVault - Secure Document Storage App
 
 
 A premium Flutter application providing secure document storage with biometric authentication and zero-knowledge encryption. CyberVault ensures your sensitive documents remain private and accessible only to you.
 
-## 🌟 Features
+##  Features
 
 ### 🔐 Security & Authentication
 - **Biometric Authentication** - Fingerprint and Face ID support
@@ -173,7 +173,7 @@ We welcome contributions! Please follow these steps:
 
 
 
-**Built with ❤️ using Flutter and Firebase**
+**Built with using Flutter and Firebase**
 
 ## Setup (Windows)
 
