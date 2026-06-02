@@ -13,11 +13,11 @@ import 'screens/upload_screen.dart';
 import 'screens/document_view_screen.dart';
 import 'screens/settings_screen.dart';
 
-/// Local document storage (no Firebase project). Pass
-/// `--dart-define=USE_LOCAL_BACKEND=false` after configuring Firebase.
+/// Local document storage (no Firebase). On web, cloud/Firebase is the default.
+/// Pass `--dart-define=USE_LOCAL_BACKEND=true` to force browser-only storage.
 const _useLocalBackend = bool.fromEnvironment(
   'USE_LOCAL_BACKEND',
-  defaultValue: true,
+  defaultValue: kIsWeb ? false : true,
 );
 
 Future<void> main() async {
@@ -29,15 +29,17 @@ Future<void> main() async {
   };
 
   FirestoreService.useLocalBackend = _useLocalBackend;
-  if (!_useLocalBackend) {
+
+  // Web builds always initialize Firebase (email login + optional Firestore).
+  final useFirebase = kIsWeb || !_useLocalBackend;
+  if (useFirebase) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    // Email/password sign-in happens on the login screen (no anonymous session).
   } else if (kDebugMode) {
     debugPrint(
       'CyberVault: using local document storage (no Firebase). '
-      'Configure Firebase and run with --dart-define=USE_LOCAL_BACKEND=false for cloud sync.',
+      'Run on web or pass --dart-define=USE_LOCAL_BACKEND=false for cloud sync.',
     );
   }
 

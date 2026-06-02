@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -58,8 +59,10 @@ class _SetPasswordScreenState extends State<SetPasswordScreen>
     super.dispose();
   }
 
+  bool get _useCloud => kIsWeb || !FirestoreService.useLocalBackend;
+
   String? _validateEmail(String? value) {
-    if (FirestoreService.useLocalBackend) return null;
+    if (!_useCloud) return null;
     if (value == null || value.trim().isEmpty) return 'Enter email';
     if (!value.contains('@')) return 'Enter a valid email';
     return null;
@@ -85,7 +88,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen>
       final password = _passwordController.text.trim();
       final email = _emailController.text.trim();
 
-      if (!FirestoreService.useLocalBackend) {
+      if (_useCloud) {
         try {
           final user = await FirebaseAuthService.instance.registerWithEmail(
             email,
@@ -146,7 +149,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen>
 
   @override
   Widget build(BuildContext context) {
-    final useCloud = !FirestoreService.useLocalBackend;
+    final useCloud = kIsWeb || !FirestoreService.useLocalBackend;
 
     return Scaffold(
       body: SafeArea(

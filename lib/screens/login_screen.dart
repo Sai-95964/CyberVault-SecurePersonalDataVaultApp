@@ -139,8 +139,11 @@ class _LoginScreenState extends State<LoginScreen>
   Color get onSurfaceColor => _onSurfaceColor ?? Colors.white;
   Color get surfaceColor => _surfaceColor ?? Colors.grey;
 
+  /// Email sign-in is always used on web (Firebase). Desktop can use local-only mode.
+  bool get _emailSignIn => kIsWeb || !FirestoreService.useLocalBackend;
+
   String? _validateEmail(String? value) {
-    if (FirestoreService.useLocalBackend) return null;
+    if (!_emailSignIn) return null;
     if (value == null || value.trim().isEmpty) return 'Enter email';
     if (!value.contains('@')) return 'Enter a valid email';
     return null;
@@ -177,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() => _loading = true);
 
     try {
-      if (!FirestoreService.useLocalBackend) {
+      if (_emailSignIn) {
         try {
           final user = await FirebaseAuthService.instance.signInWithEmail(
             email,
@@ -410,9 +413,9 @@ class _LoginScreenState extends State<LoginScreen>
                           const SizedBox(height: 48),
                           
                           Text(
-                            FirestoreService.useLocalBackend
-                                ? 'Enter your master password to unlock'
-                                : 'Sign in with email and your vault password',
+                            _emailSignIn
+                                ? 'Sign in with email and your vault password'
+                                : 'Enter your master password to unlock',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
@@ -424,7 +427,7 @@ class _LoginScreenState extends State<LoginScreen>
                           GlassmorphismCard(
                             child: Column(
                               children: [
-                                if (!FirestoreService.useLocalBackend) ...[
+                                if (_emailSignIn) ...[
                                   TextFormField(
                                     controller: _emailController,
                                     keyboardType: TextInputType.emailAddress,
@@ -455,9 +458,8 @@ class _LoginScreenState extends State<LoginScreen>
                                     letterSpacing: 0.5,
                                   ),
                                   decoration: InputDecoration(
-                                    labelText: FirestoreService.useLocalBackend
-                                        ? 'Master Password'
-                                        : 'Vault password',
+                                    labelText:
+                                        _emailSignIn ? 'Vault password' : 'Master Password',
                                     labelStyle: TextStyle(
                                       color: onSurfaceColor.withOpacity(0.7),
                                     ),
@@ -534,9 +536,7 @@ class _LoginScreenState extends State<LoginScreen>
                                             const Icon(Icons.lock_open_rounded, size: 20),
                                             const SizedBox(width: 8),
                                             Text(
-                                              FirestoreService.useLocalBackend
-                                                  ? 'Unlock Vault'
-                                                  : 'Sign in',
+                                              _emailSignIn ? 'Sign in' : 'Unlock Vault',
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
